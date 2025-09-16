@@ -26,7 +26,7 @@ export class JwtService implements IJwtService {
 
   generateAccessToken(payload: JWTPayloadData): string {
     return jwt.sign(payload, this._accessSecret, {
-      expiresIn: '1m'
+      expiresIn: '15m'
     });
   }
   generateRefreshToken(payload: JWTPayloadData): string {
