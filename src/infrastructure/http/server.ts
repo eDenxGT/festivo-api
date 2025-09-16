@@ -42,6 +42,9 @@ export class ExpressServer {
 
     this._app.use(helmet());
 
+    // to tell
+    this._app.set('trust proxy', 1);
+
     this._app.use(
       cors({
         origin: envConfig.cors.ALLOWED_ORIGIN,
