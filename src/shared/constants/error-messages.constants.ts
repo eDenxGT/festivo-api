@@ -24,6 +24,7 @@ export const ERROR_MESSAGES = {
     INVALID_CREDENTIALS: 'Invalid credentials',
     VALIDATION_FAILED: 'Validation Failed',
 
+    MAX_TICKETS_REACHED: 'Max registration reached for this event',
     REGISTRATION_EXISTS: 'You already registered for this event'
   }
 };

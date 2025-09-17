@@ -33,14 +33,14 @@ export class RegisterEventUseCase implements IRegisterEventUseCase {
       'participant_details.id': user_id,
       event_id
     });
-    
+
     if (registrationExists) {
       throw new AppError(
         ERROR_MESSAGES.CLIENT.REGISTRATION_EXISTS,
         HTTP_STATUS.CONFLICT
       );
     }
-    
+
     const userData = await this._userRepository.findOne({ _id: user_id });
 
     const eventDetails = await this._eventRepository.findOne({ _id: event_id });
@@ -50,6 +50,20 @@ export class RegisterEventUseCase implements IRegisterEventUseCase {
         ERROR_MESSAGES.CLIENT.NOT_FOUND,
         HTTP_STATUS.NOT_FOUND
       );
+    }
+
+    if (eventDetails.max_tickets) {
+      const currentRegistrationsCount =
+        await this._registrationRepository.countDocuments({
+          event_id
+        });
+
+      if (currentRegistrationsCount >= eventDetails.max_tickets) {
+        throw new AppError(
+          ERROR_MESSAGES.CLIENT.MAX_TICKETS_REACHED,
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
     }
 
     const registrationData: Omit<IRegistration, 'id'> = {
